@@ -2,14 +2,7 @@ class Api::V1::TruckInfoController < ApplicationController
   before_action :get_truck_info, only: [:show, :update, :destroy]
 
   def index
-    if params[:query]
-      trucks = TruckInfo.where("driver like (?) OR parking_address like (?)
-        OR production_year = (?) OR truck_plate like (?)", "%#{params[:query]}%",
-        "%#{params[:query]}%", "%#{params[:query]}%", "%#{params[:query]}%")
-    else
-      trucks = TruckInfo.all
-    end
-
+    trucks = TruckInfo.all.order("created_at DESC")
     render json: {truck_info: trucks}
   end
 
